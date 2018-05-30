@@ -80,3 +80,7 @@ xs.settings.num_channels.put(4)
 # else, we get file writing errors
 # xs.hdf5.warmup()
 
+# Hints:
+for n in [1, 2]:
+    getattr(xs, f'channel{n}').rois.roi01.value.kind = 'hinted'
+

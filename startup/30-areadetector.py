@@ -270,6 +270,8 @@ for det in [
     det.tiff.read_path_template = f'/tmp/pe_img/%Y/%m/%d/'
     det.tiff.write_path_template = f'D:\\pe_img\\%Y\\%m\\%d\\'
 
+pe1.stats1.kind = 'hinted'
+pe1.stats1.total.kind = 'hinted'
 
 # some defaults, as an example of how to use this
 # pe1.configure(dict(images_per_set=6, number_of_sets=10))
