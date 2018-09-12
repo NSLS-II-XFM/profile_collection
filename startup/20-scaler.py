@@ -93,8 +93,15 @@ class Scaler(Device):
 
 
 sclr2 = Scaler('XF:04BM-ES:1{Sclr:2}', name='sclr2')
+sclr2.cnts.stage_sigs['count_mode'] = 'OneShot'
 sclr2.cnts.channels.read_attrs = [f"chan{j:02d}" for j in range(1, 5)]
+for j in [1, 3,]:
+    getattr(sclr2.cnts.channels, f'chan{j:02d}').s.kind = 'normal'
+sclr2.cnts.channels.chan02.s.kind = 'hinted'
+sclr2.cnts.channels.chan04.s.kind = 'hinted'
 sclr2.mcas.channels.read_attrs = [f"mca{j:02d}" for j in range(1, 5)]
+sclr2.cnts.channels.configuration_attrs = [f"chan{j:02d}" for j in range(1, 5)]
+sclr2.mcas.channels.configuration_attrs = [f"mca{j:02d}" for j in range(1, 5)]
 sclr2.match_names(32)
 sclr2.set_mode('counting')
 
