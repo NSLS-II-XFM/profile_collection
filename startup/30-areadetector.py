@@ -149,7 +149,7 @@ class XPDPerkinElmer(PerkinElmerDetector):
              cam_name='cam',  # used to configure "tiff squashing"
              proc_name='proc',  # ditto
              read_attrs=[],
-             root='/tmp/pe_img/')
+             root='/nsls2/xf04bm/data/')
 
     # hdf5 = C(XPDHDF5Plugin, 'HDF1:',
     #          write_path_template='G:/pe1_data/%Y/%m/%d/',
@@ -262,16 +262,17 @@ pe1_pv_prefix = 'XF:04BMC-ES{DET-PEXRD}'
 
 # PE1 detector configurations:
 pe1 = PerkinElmerStandard(pe1_pv_prefix, name='pe1', read_attrs=['tiff'])
-
+ 
 # Update read/write paths for all the detectors in once:
 for det in [
             pe1,
             ]:
-    det.tiff.read_path_template = f'/tmp/pe_img/%Y/%m/%d/'
-    det.tiff.write_path_template = f'D:\\pe_img\\%Y\\%m\\%d\\'
+    det.tiff.read_path_template = f'/nsls2/xf04bm/data/pexrd/%Y/%m/%d/'
+    det.tiff.write_path_template = f'Y:\\%Y\\%m\\%d\\'
 
 pe1.stats1.kind = 'hinted'
 pe1.stats1.total.kind = 'hinted'
+
 
 # some defaults, as an example of how to use this
 # pe1.configure(dict(images_per_set=6, number_of_sets=10))
