@@ -31,10 +31,9 @@ class SrxXspress3Detector(XspressTrigger, Xspress3Detector):
     # create_dir = Cpt(EpicsSignal, 'HDF5:FileCreateDir')
 
     hdf5 = Cpt(Xspress3FileStore, 'HDF5:',
-               read_path_template='/mnt/xspress3/data-srv2/x3mini-test/',
-               write_path_template='/home/xspress3/data-srv2/x3mini-test/',
-               root='/mnt/xspress3/data-srv2/',
-               reg=db.reg,
+               read_path_template='/nsls2/xf04bm/data/x3m/%Y/%m/%d/',
+               root='/nsls2/xf04bm/data/',
+               write_path_template='/nsls2/xf04bm/data/x3m/%Y/%m/%d/',
                )
 
     def __init__(self, prefix, *, configuration_attrs=None, read_attrs=None,
@@ -50,13 +49,13 @@ class SrxXspress3Detector(XspressTrigger, Xspress3Detector):
         # self.create_dir.put(-3)
 
     def stop(self):
-        ret = super.stop()
+        ret = super().stop()
         self.hdf5.stop()
         return ret
 
     def stage(self):
         ret = super().stage()
-        self.hdf5._resource_uid = self.hdf5._resource
+        # self._resource_uid = self._resource
         return ret
 
     # Currently only using three channels. Uncomment these to enable more
@@ -83,4 +82,72 @@ xs.settings.num_channels.put(4)
 # Hints:
 for n in [1, 2]:
     getattr(xs, f'channel{n}').rois.roi01.value.kind = 'hinted'
+
+import skbeam.core.constants.xrf as xrfC
+
+interestinglist = ['Si', 'P', 'S', 'Cl', 'Ar', 'K', 'Ca', 'Sc', 'Ti', 'V', 'Cr', 'Mn', 'Fe', 'Co', 'Ni', 'Cu', 'Zn', 'Ga', 'Ge', 'As', 'Se', 'Br', 'Kr', 'Rb', 'Sr', 'Y', 'Zr', 'Nb', 'Mo', 'Tc', 'Ru', 'Rh', 'Pd', 'Ag', 'Cd', 'In', 'Sn', 'Sb', 'Te', 'I', 'Xe', 'Cs', 'Ba', 'La', 'Ce', 'Pr', 'Nd', 'Pm', 'Sm', 'Eu', 'Gd', 'Tb', 'Dy', 'Ho', 'Er', 'Tm', 'Yb', 'Lu', 'Hf', 'Ta', 'W', 'Re', 'Os', 'Ir', 'Pt', 'Au', 'Hg', 'Tl', 'Pb', 'Bi', 'Po', 'At', 'Rn', 'Fr', 'Ra', 'Ac', 'Th', 'Pa', 'U']
+
+elements = dict()
+element_edges = ['ka1','ka2','kb1','la1','la2','lb1','lb2','lg1','ma1']
+element_transitions = ['k', 'l1', 'l2', 'l3', 'm1', 'm2', 'm3', 'm4', 'm5']
+for i in interestinglist:
+    elements[i] = xrfC.XrfElement(i)
+
+def setroi(roinum, element, edge):
+    '''
+    Set energy ROIs for Vortex SDD.  Selects elemental edge given current energy if not provided.
+    roinum      [1,2,3]     ROI number
+    element     <symbol>    element symbol for target energy
+    edge                    optional:  ['ka1','ka2','kb1','la1','la2','lb1','lb2','lg1','ma1']
+    '''
+    
+    cur_element = xrfC.XrfElement(element)
+
+    e_ch = int(cur_element.emission_line[edge] * 1000)
+    
+    for (n, d) in xs.channels.items():
+        d.set_roi(roinum, e_ch-200, e_ch+200, name=element + '_' + edge)
+        getattr(d.rois, f'roi{roinum:02d}').kind = 'normal'
+    print("ROI{} set for {}-{} edge.".format(roinum, element, edge))
+
+
+def clearroi(roinum=None):
+    if roinum is None:
+        roinum = [1, 2, 3]
+    try:
+        roinum = list(roinum)
+    except TypeError:
+        roinum = [roinum]
+
+    # xs.channel1.rois.roi01.clear
+    for (n, d) in xs.channels.items():
+        for roi in roinum:
+             cpt = getattr(d.rois, f'roi{roi:02d}')
+             cpt.clear()
+             cpt.kind = 'omitted'
+
+xs.settings.configuration_attrs = ['acquire_period',
+			           'acquire_time',
+			           'gain',
+			           'image_mode',
+			           'manufacturer',
+			           'model',
+			           'num_exposures',
+			           'num_images',
+			           'temperature',
+			           'temperature_actual',
+			           'trigger_mode',
+			           'config_path',
+			           'config_save_path',
+			           'invert_f0',
+			           'invert_veto',
+			           'xsp_name',
+			           'num_channels',
+			           'num_frames_config',
+			           'run_flags',
+                                   'trigger_signal']
+
+for n, d in xs.channels.items():
+    d.rois.read_attrs = ['roi{:02}'.format(j) for j in [1, 2, 3, 4]]
+    d.rois.configuration_attrs = ['roi{:02}'.format(j) for j in [1, 2, 3, 4]]
 
