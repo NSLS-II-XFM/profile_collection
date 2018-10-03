@@ -8,7 +8,7 @@ from ophyd.status import StatusBase
 class ScalerMCA(Device):
     _default_read_attrs = ('channels', 'current_channel')
     _default_configuration_attrs = ('nuse', 'prescale')
-    
+
     channels = DDC({f'mca{k:02d}': (EpicsSignal, f"mca{k}", {}) for k in range(1, 33)})
     startall = C(EpicsSignal, 'StartAll', string=True)
     stopall = C(EpicsSignal, 'StopAll', string=True)
@@ -33,14 +33,14 @@ class ScalerMCA(Device):
         self.erasestart.put('Erase')
 
         return StatusBase()
-    
+
 
 class Scaler(Device):
     # MCAs
     mcas = C(ScalerMCA, '')
     # TODO maybe an issue with the timing around the triggering?
     cnts = C(ScalerCH, 'scaler1')
-    
+
     def __init__(self, *args, mode='counting', **kwargs):
         super().__init__(*args, **kwargs)
         self.set_mode(mode)
@@ -73,7 +73,7 @@ class Scaler(Device):
             return self.mcas.trigger()
         else:
             raise ValueError
-        
+
     def stage(self):
         self.match_names()
         if self._mode == 'counting':
@@ -91,6 +91,19 @@ class Scaler(Device):
         else:
             raise ValueError
 
+sclr1 = Scaler('XF:04BM-ES:1{Sclr:1}', name='sclr1')
+sclr1.cnts.stage_sigs['count_mode'] = 'OneShot'
+sclr1.cnts.channels.read_attrs = [f"chan{j:02d}" for j in range(1, 5)]
+for j in [1, 3,]:
+    getattr(sclr1.cnts.channels, f'chan{j:02d}').s.kind = 'normal'
+sclr1.cnts.channels.chan02.s.kind = 'hinted'
+sclr1.cnts.channels.chan04.s.kind = 'hinted'
+sclr1.mcas.channels.read_attrs = [f"mca{j:02d}" for j in range(1, 5)]
+sclr1.cnts.channels.configuration_attrs = [f"chan{j:02d}" for j in range(1, 5)]
+sclr1.mcas.channels.configuration_attrs = [f"mca{j:02d}" for j in range(1, 5)]
+sclr1.match_names(32)
+sclr1.set_mode('counting')
+
 
 sclr2 = Scaler('XF:04BM-ES:1{Sclr:2}', name='sclr2')
 sclr2.cnts.stage_sigs['count_mode'] = 'OneShot'
@@ -104,4 +117,3 @@ sclr2.cnts.channels.configuration_attrs = [f"chan{j:02d}" for j in range(1, 5)]
 sclr2.mcas.channels.configuration_attrs = [f"mca{j:02d}" for j in range(1, 5)]
 sclr2.match_names(32)
 sclr2.set_mode('counting')
-

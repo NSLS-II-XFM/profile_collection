@@ -2,12 +2,15 @@ from ophyd import EpicsMotor, Device, Component as Cpt
 
 # TODO this need to be made xps aware classes
 class Stage(Device):
-    x = Cpt(EpicsMotor, 'm1')
-    y = Cpt(EpicsMotor, 'm2')
-    z = Cpt(EpicsMotor, 'm3')
-        
-S = Stage('XF:04BM-ES:2:', name='S')
-S_x = S.x
-S_y = S.y
-S_z = S.z
+    x    = Cpt(EpicsMotor, '2:m1')
+    y    = Cpt(EpicsMotor, '2:m2')
+    z    = Cpt(EpicsMotor, '2:m3')
+    DACx = Cpt(EpicsMotor, '1:m1')
+    DACy = Cpt(EpicsMotor, '1:m2')
 
+S = Stage('XF:04BM-ES:', name='S')
+S_x   = S.x
+S_y   = S.y
+S_z   = S.z
+DAC_x = S.DACx
+DAC_y = S.DACy

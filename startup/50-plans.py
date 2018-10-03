@@ -47,12 +47,30 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
     yield from bp.count(dets, num, **kwargs)
 
 
+@bpp.reset_positions_decorator(devices=[DACx, DACy])
+def DAC_centering(ystart, ystop, ysteps,
+                  xstart, xstop, xsteps,
+                  count_time,
+                  snake=True):
+    """
+    This a 2D step scan for centering a DAC
+    """
+
+    dets = [sclr1]
+
+    yield from bp.grid_scan(dets,
+                            DACy, ystart, ystop, ysteps,
+                            DACx, xstart, xstop, xsteps,
+                            snake)
+
+
+
 @bpp.reset_positions_decorator(devices=[S.x, S.y])
 def step2d(ystart, ystop, ysteps,
            xstart, xstop, xsteps,
            count_time,
            snake=True, *,
-           xrd=False, x3m=True,
+           xrd=False, x3m=False,
            **kwargs):
     """
     This a 2D step scan
