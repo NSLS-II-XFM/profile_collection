@@ -91,20 +91,6 @@ class Scaler(Device):
         else:
             raise ValueError
 
-sclr1 = Scaler('XF:04BM-ES:1{Sclr:1}', name='sclr1')
-sclr1.cnts.stage_sigs['count_mode'] = 'OneShot'
-sclr1.cnts.channels.read_attrs = [f"chan{j:02d}" for j in range(1, 5)]
-for j in [1, 3,]:
-    getattr(sclr1.cnts.channels, f'chan{j:02d}').s.kind = 'normal'
-sclr1.cnts.channels.chan02.s.kind = 'hinted'
-sclr1.cnts.channels.chan04.s.kind = 'hinted'
-sclr1.mcas.channels.read_attrs = [f"mca{j:02d}" for j in range(1, 5)]
-sclr1.cnts.channels.configuration_attrs = [f"chan{j:02d}" for j in range(1, 5)]
-sclr1.mcas.channels.configuration_attrs = [f"mca{j:02d}" for j in range(1, 5)]
-sclr1.match_names(32)
-sclr1.set_mode('counting')
-
-
 sclr2 = Scaler('XF:04BM-ES:1{Sclr:2}', name='sclr2')
 sclr2.cnts.stage_sigs['count_mode'] = 'OneShot'
 sclr2.cnts.channels.read_attrs = [f"chan{j:02d}" for j in range(1, 5)]

@@ -1,4 +1,3 @@
-
 def set_count_time(secs):
     return (yield from bps.mov(
         sclr2.cnts.preset_time, secs,
@@ -41,7 +40,7 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
         if num is None:
             raise TypeError("can not count forever with x3m")
         yield from bps.mov(xs.total_points, num)
-       
+
     yield from set_count_time(count_time)
 
     yield from bp.count(dets, num, **kwargs)
@@ -56,12 +55,18 @@ def DAC_centering(ystart, ystop, ysteps,
     This a 2D step scan for centering a DAC
     """
 
-    dets = [sclr1]
+    dets = [sclr2]
 
-    yield from bp.grid_scan(dets,
-                            DACy, ystart, ystop, ysteps,
-                            DACx, xstart, xstop, xsteps,
-                            snake)
+#    yield from bp.grid_scan(dets,
+#                            DACy, ystart, ystop, ysteps,
+#                            DACx, xstart, xstop, xsteps,
+#                            snake)
+
+    yield from bp.spiral(dets,
+                         DACx, DACy,
+                         x_start=14.00, y_start=78.00,
+                         x_range=0.15, y_range=0.15,
+                         dr=0.15, nth=300)
 
 
 
@@ -70,11 +75,11 @@ def step2d(ystart, ystop, ysteps,
            xstart, xstop, xsteps,
            count_time,
            snake=True, *,
-           xrd=False, x3m=False,
+           xrd=False, x3m=True,
            **kwargs):
     """
     This a 2D step scan
-    
+
     Parameters
     ----------
     ystart, ystop : float
@@ -108,7 +113,7 @@ def step2d(ystart, ystop, ysteps,
     **kwargs
        passed through to bp.grid_scan
 
-    
+
     """
     dets = [sclr2]
     if xrd:
@@ -117,10 +122,8 @@ def step2d(ystart, ystop, ysteps,
     if x3m:
         dets.append(xs)
         yield from bps.mov(xs.total_points, xsteps*ysteps)
-       
+
     yield from bp.grid_scan(dets,
                             S.y, ystart, ystop, ysteps,
                             S.x, xstart, xstop, xsteps,
                             snake, **kwargs)
-
-
