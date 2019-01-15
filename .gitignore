@@ -110,3 +110,5 @@ venv.bak/
 # DAMA update
 history.sqlite
 startup/README
+
+zz-dama.py

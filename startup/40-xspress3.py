@@ -66,7 +66,7 @@ class SrxXspress3Detector(XspressTrigger, Xspress3Detector):
     # channel8 = C(Xspress3Channel, 'C8_', channel_num=8)
 
 
-xs = SrxXspress3Detector('XSPRESS3-EXAMPLE:', name='xs')
+xs = SrxXspress3Detector('XF:04BMC-ES{x3m:1}:', name='xs')
 for n in [1, 2, 3, 4]:
     getattr(xs, f'channel{n}').rois.read_attrs = ['roi{:02}'.format(j) for j in [1, 2, 3, 4]]
 xs.hdf5.num_extra_dims.put(0)
