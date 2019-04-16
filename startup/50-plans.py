@@ -46,7 +46,7 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
     yield from bp.count(dets, num, **kwargs)
 
 
-@bpp.reset_positions_decorator(devices=[DACx, DACy])
+@bpp.reset_positions_decorator(devices=[DAC.x, DAC.y])
 def DAC_centering(ystart, ystop, ysteps,
                   xstart, xstop, xsteps,
                   count_time,
