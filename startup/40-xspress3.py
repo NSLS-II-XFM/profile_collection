@@ -14,7 +14,8 @@ from ophyd import Signal
 from ophyd import Component as C
 
 from hxntools.handlers import register
-register(db)
+# area_detector_handlers package provides handler for xspress3
+# register(db)
 
 from pathlib import PurePath
 from hxntools.detectors.xspress3 import (XspressTrigger, Xspress3Detector,
