@@ -13,13 +13,13 @@ from ophyd.areadetector.filestore_mixins import (FileStoreIterativeWrite,
 from ophyd import Signal
 from ophyd import Component as C
 
-from hxntools.handlers import register
 # area_detector_handlers package provides handler for xspress3
+# from hxntools.handlers import register
 # register(db)
 
 from pathlib import PurePath
-from hxntools.detectors.xspress3 import (XspressTrigger, Xspress3Detector,
-                                         Xspress3Channel, Xspress3FileStore, logger)
+from nslsii.detectors.xspress3 import (XspressTrigger, Xspress3Detector,
+                                       Xspress3Channel, Xspress3FileStore, logger)
 from databroker.assets.handlers import Xspress3HDF5Handler, HandlerBase
 
 
