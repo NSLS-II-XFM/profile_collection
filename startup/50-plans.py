@@ -1,6 +1,6 @@
 def set_count_time(secs):
     return (yield from bps.mov(
-        sclr2.cnts.preset_time, secs,
+        sclr1.cnts.preset_time, secs,
         xs.settings.acquire_time, secs,
         pe1.cam.acquire_time, secs,
     ))
@@ -31,7 +31,7 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
        passed through to bp.count
 
     """
-    dets = [sclr2]
+    dets = [sclr1]
     if xrd:
         dets.append(pe1)
 
@@ -46,16 +46,16 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
     yield from bp.count(dets, num, **kwargs)
 
 
+    """test
+    This a 2D step scan for centering a DAC
+
 @bpp.reset_positions_decorator(devices=[DAC.x, DAC.y])
 def DAC_centering(ystart, ystop, ysteps,
                   xstart, xstop, xsteps,
                   count_time,
                   snake=True):
-    """
-    This a 2D step scan for centering a DAC
-    """
 
-    dets = [sclr2]
+    dets = [sclr1]
 
 #    yield from bp.grid_scan(dets,
 #                            DACy, ystart, ystop, ysteps,
@@ -67,7 +67,7 @@ def DAC_centering(ystart, ystop, ysteps,
                          x_start=14.00, y_start=78.00,
                          x_range=0.15, y_range=0.15,
                          dr=0.15, nth=300)
-
+    """
 
 
 @bpp.reset_positions_decorator(devices=[S.x, S.y])
@@ -115,7 +115,7 @@ def step2d(ystart, ystop, ysteps,
 
 
     """
-    dets = [sclr2]
+    dets = [sclr1]
     if xrd:
         dets.append(pe1)
 
