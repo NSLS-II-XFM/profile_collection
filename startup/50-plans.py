@@ -119,10 +119,12 @@ def step2d(ystart, ystop, ysteps,
     if xrd:
         dets.append(pe1)
 
+
     if x3m:
         dets.append(xs)
         yield from bps.mov(xs.total_points, xsteps*ysteps)
 
+    yield from set_count_time(count_time)
     yield from bp.grid_scan(dets,
                             S.y, ystart, ystop, ysteps,
                             S.x, xstart, xstop, xsteps,
