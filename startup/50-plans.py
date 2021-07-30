@@ -2,11 +2,12 @@ def set_count_time(secs):
     return (yield from bps.mov(
         sclr1.cnts.preset_time, secs,
         xs.settings.acquire_time, secs,
-        pe1.cam.acquire_time, secs,
+#        pe1.cam.acquire_time, secs,
     ))
 
 
-def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
+def xfmcount(num, count_time, *, x3m=True, **kwargs):
+#def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
     """Count the detectors
 
     Parameters
@@ -32,8 +33,8 @@ def xfmcount(num, count_time, *, xrd=False, x3m=True, **kwargs):
 
     """
     dets = [sclr1]
-    if xrd:
-        dets.append(pe1)
+#    if xrd:
+#        dets.append(pe1)
 
     if x3m:
         dets.append(xs)
@@ -75,7 +76,7 @@ def step2d(ystart, ystop, ysteps,
            xstart, xstop, xsteps,
            count_time,
            snake=True, *,
-           xrd=False, x3m=True,
+           x3m=True,
            **kwargs):
     """
     This a 2D step scan
@@ -116,8 +117,8 @@ def step2d(ystart, ystop, ysteps,
 
     """
     dets = [sclr1]
-    if xrd:
-        dets.append(pe1)
+#    if xrd:
+#        dets.append(pe1)
 
 
     if x3m:
