@@ -1,6 +1,6 @@
 from nslsii.detectors.maia import MAIA
 
-# maia = MAIA('XFM:MAIA', name='maia')
+maia = MAIA('XFM:MAIA', name='maia')
 
 import numpy as np
 
@@ -169,14 +169,16 @@ def fly_maia(
         # by row
         for i, y_pos in enumerate(np.linspace(ystart, ystop, ynum)):
             yield from bps.checkpoint()
+            #yield from bps.sleep(0.05)
             # move to the row we want
-            yield from bps.mv(hf_stage.y, y_pos)
+            yield from bps.mv(hf_stage.y, y_pos, wait=True)
             if i % 2:
                 # for odd-rows move from start to stop
-                yield from bps.mv(hf_stage.x, xstop)
+                yield from bps.mv(hf_stage.x, xstop, wait=True)
             else:
                 # for even-rows move from stop to start
-                yield from bps.mv(hf_stage.x, xstart)
+                yield from bps.mv(hf_stage.x, xstart, wait=True)
+            #yield from bps.sleep(0.02)
 
     def _cleanup_plan():
         # stop the maia ("I'll wait until you're done")
