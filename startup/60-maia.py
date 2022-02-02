@@ -171,14 +171,15 @@ def fly_maia(
             yield from bps.checkpoint()
             #yield from bps.sleep(0.05)
             # move to the row we want
-            yield from bps.mv(hf_stage.y, y_pos, wait=True)
+            yield from bps.mv(hf_stage.y, y_pos)
+            yield from bps.sleep(0.05)
             if i % 2:
                 # for odd-rows move from start to stop
-                yield from bps.mv(hf_stage.x, xstop, wait=True)
+                yield from bps.mv(hf_stage.x, xstop)
             else:
                 # for even-rows move from stop to start
-                yield from bps.mv(hf_stage.x, xstart, wait=True)
-            #yield from bps.sleep(0.02)
+                yield from bps.mv(hf_stage.x, xstart)
+            yield from bps.sleep(0.02)
 
     def _cleanup_plan():
         # stop the maia ("I'll wait until you're done")
