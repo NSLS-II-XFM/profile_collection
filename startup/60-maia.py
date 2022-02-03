@@ -170,8 +170,8 @@ def fly_maia(
         for i, y_pos in enumerate(np.linspace(ystart, ystop, ynum)):
             yield from bps.checkpoint()
             # move to the row we want
-            yield from bps.mv(hf_stage.y, y_pos, wait=True)
-            yield from bps.sleep(0.02)
+            yield from bps.mv(hf_stage.y, y_pos)
+            yield from bps.sleep(0.05)
             if i % 2:
                 # for odd-rows move from start to stop
                 yield from bps.mv(hf_stage.x, xstop)
