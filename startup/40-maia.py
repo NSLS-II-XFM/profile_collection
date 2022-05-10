@@ -1,5 +1,4 @@
 from nslsii.detectors.maia import MAIA
-
 maia = MAIA('XFM:MAIA', name='maia')
 
 import numpy as np
