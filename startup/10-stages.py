@@ -10,14 +10,34 @@ S_x   = S.x
 S_y   = S.y
 S_z   = S.z
 
-class MaiaStage(Device):
-    x    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaX}Mtr')
-    y    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaY}Mtr')
-    z    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaZ}Mtr')
-    r    = Cpt(EpicsMotor, '{SR50pp:1-Ax:MaiaR}Mtr')
+#class MaiaStage(Device):
+    #x    = Cpt(EpicsMotor, '{UTS:1-Ax:X}Mtr')
+    #y    = Cpt(EpicsMotor, '{UTS:1-Ax:Y}Mtr')
+    #z    = Cpt(EpicsMotor, '{UTS:1-Ax:Z}Mtr')
 
-M = MaiaStage('XF:04BMC-ES:2', name='M')
-M_x   = M.x
-M_y   = M.y
-M_z   = M.z
-M_r   = M.r
+#M = MaiaStage('XF:04BMC-ES:2', name='M')
+#M_x   = M.x
+#M_y   = M.y
+#M_z   = M.z
+
+#class MaiaStage(Device):
+    #x    = Cpt(EpicsMotor, '{X12:1-Ax:X}Mtr')
+    #y    = Cpt(EpicsMotor, '{X12:1-Ax:Y}Mtr')
+    #r    = Cpt(EpicsMotor, '{SR50pp:1-Ax:MaiaR}Mtr')
+
+#M = MaiaStage('XF:04BM-ES:2', name='M')
+#M_x   = M.x
+#M_y   = M.y
+#M_r   = M.r
+
+#class MaiaStage(Device):
+   # x    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaX}Mtr')
+   # y    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaY}Mtr')
+   # z    = Cpt(EpicsMotor, '{PI180:1-Ax:MaiaZ}Mtr')
+   # r    = Cpt(EpicsMotor, '{SR50pp:1-Ax:MaiaR}Mtr')
+
+#M = MaiaStage('XF:04BMC-ES:2', name='M')
+#M_x   = M.x
+#M_y   = M.y
+#M_z   = M.z
+#M_r   = M.r

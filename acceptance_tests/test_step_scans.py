@@ -18,10 +18,10 @@ def test_fly_maia():
         fly_maia(
             ystart=130.0,
             ystop=130.02,
-            ynum=2,
+            ynum=3,
             xstart=60.0,
             xstop=60.1,
-            xnum=10,
+            xnum=11,
             dwell=0.1,
             hf_stage=M,
             maia=maia,
@@ -48,10 +48,10 @@ def test_step2d():
         step2d(
             ystart=-5.02,
             ystop=-5.0,
-            ysteps=2,
+            ysteps=3,
             xstart=-17.1,
             xstop=-17.0,
-            xsteps=10,
+            xsteps=11,
             count_time=1.0,
             snake=False,
             x3m=True,
@@ -61,3 +61,6 @@ def test_step2d():
     print("Test 2 complete")
     print("Reading scan from databroker")
     db[uid].table(fill=True)
+
+test_fly_maia()
+test_step2d()
