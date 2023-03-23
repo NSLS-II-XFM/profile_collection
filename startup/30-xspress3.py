@@ -32,9 +32,9 @@ class SrxXspress3Detector(XspressTrigger, Xspress3Detector):
     # create_dir = Cpt(EpicsSignal, 'HDF5:FileCreateDir')
 
     hdf5 = Cpt(Xspress3FileStore, 'HDF5:',
-               read_path_template='/nsls2/data/xfm/legacy/data/x3m/%Y/%m/%d/',
-               root='/nsls2/data/xfm/legacy/data/',
-               write_path_template='/nsls2/data/xfm/legacy/data/x3m/%Y/%m/%d/',
+               read_path_template='/nsls2/data/xfm/legacy/raw/x3m/%Y/%m/%d/',
+               root='/nsls2/data/xfm/legacy/raw/',
+               write_path_template='/nsls2/data/xfm/legacy/raw/x3m/%Y/%m/%d/',
                )
 
     def __init__(self, prefix, *, configuration_attrs=None, read_attrs=None,
